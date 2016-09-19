@@ -8,48 +8,42 @@ namespace UnitTest
     [TestClass]
     public class LeapYearTest
     {
+        //weak normal ECT test IsLeapYear method
         [TestMethod]
-        public void isLeapYearTestTrue()
+        public void isLeapYearTestEvenlyDeviedBy4()
         {
             LeapYear target = new LeapYear();
-            bool result = target.IsLeapYear(4);
+            bool result = target.IsLeapYear(12);
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void isLeapYearTestFalse()
+        public void isLeapYearTestEvenlyDeviedBy100()
         {
             LeapYear target = new LeapYear();
-            bool result = target.IsLeapYear(5);
+            bool result = target.IsLeapYear(300);
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void isLeapYearTestSkipTrue()
+        public void isLeapYearTestEvenlyDeviedBy400()
         {
             LeapYear target = new LeapYear();
-            bool result = target.IsLeapYear(400);
+            bool result = target.IsLeapYear(2000);
             Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void isLeapYearTestSkipFalse()
-        {
-            LeapYear target = new LeapYear();
-            bool result = target.IsLeapYear(100);
-            Assert.IsFalse(result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void isLeapYearTestZeroYear()
+        public void isLeapYearTestInvalidInput()
         {
             LeapYear target = new LeapYear();
-            target.IsLeapYear(0);
+            target.IsLeapYear(-42);
         }
 
+        //Strong normal ECT test ListLeapYear method
         [TestMethod]
-        public void ListLeapYearTest()
+        public void ListLeapYearValidList()
         {
             LeapYear target = new LeapYear();
             var expected = new List<int>();
@@ -63,8 +57,45 @@ namespace UnitTest
         }
 
         [TestMethod]
+        public void ListLeapYearaLessThanb()
+        {
+            LeapYear target = new LeapYear();
+            var expected = new List<int>();
+            var actual = target.ListLeapYear(2015, 2000);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ListLeapYearLessYears()
+        {
+            LeapYear target = new LeapYear();
+            var expected = new List<int>();
+            expected.Add(2000);
+            expected.Add(2004);
+            expected.Add(2008);
+
+            var actual = target.ListLeapYear(2000, 2015);
+            CollectionAssert.AreNotEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ListLeapYearMoreYears()
+        {
+            LeapYear target = new LeapYear();
+            var expected = new List<int>();
+            expected.Add(2000);
+            expected.Add(2004);
+            expected.Add(2008);
+            expected.Add(2012);
+            expected.Add(2016);
+
+            var actual = target.ListLeapYear(2000, 2015);
+            CollectionAssert.AreNotEqual(expected, actual);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ListLeapYearTestOutOfRange()
+        public void ListLeapYearTestInvalida()
         {
             LeapYear target = new LeapYear();
             target.ListLeapYear(0, 2015);
@@ -72,3 +103,4 @@ namespace UnitTest
 
     }
 }
+
